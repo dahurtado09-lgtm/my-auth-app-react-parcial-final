@@ -49,16 +49,16 @@ export default function Register() {
     <div className="min-h-screen flex items-center justify-center bg-gray-900 px-4">
       <div className="w-full max-w-md bg-gray-800 rounded-2xl shadow-xl p-8">
         <h2 className="text-3xl font-bold text-white text-center mb-6">
-          Register Account
+          Registrar cuenta
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="text-gray-300">Username</label>
+            <label className="text-gray-300">Nombre de usuario</label>
             <input
               type="text"
               name="username"
-              placeholder="JohnDoe"
+              placeholder="Alejandro05"
               required
               onChange={handleChange}
               className="w-full mt-1 p-2 rounded-lg bg-gray-700 text-white outline-none focus:ring-2 focus:ring-indigo-500"
@@ -66,11 +66,11 @@ export default function Register() {
           </div>
 
           <div>
-            <label className="text-gray-300">Email Address</label>
+            <label className="text-gray-300">Correo Electronico</label>
             <input
               type="email"
               name="email"
-              placeholder="example@mail.com"
+              placeholder="tu_correo@gmail.com"
               required
               onChange={handleChange}
               className="w-full mt-1 p-2 rounded-lg bg-gray-700 text-white outline-none focus:ring-2 focus:ring-indigo-500"
@@ -78,10 +78,11 @@ export default function Register() {
           </div>
 
           <div>
-            <label className="text-gray-300">Password</label>
+            <label className="text-gray-300">Contraseña</label>
             <input
               type="password"
               name="password"
+              placeholder="********"
               required
               onChange={handleChange}
               className="w-full mt-1 p-2 rounded-lg bg-gray-700 text-white outline-none focus:ring-2 focus:ring-indigo-500"
@@ -89,10 +90,11 @@ export default function Register() {
           </div>
 
           <div>
-            <label className="text-gray-300">Document Number</label>
+            <label className="text-gray-300">Identificación</label>
             <input
               type="text"
               name="documentNumber"
+              placeholder="98765432"
               required
               onChange={handleChange}
               className="w-full mt-1 p-2 rounded-lg bg-gray-700 text-white outline-none focus:ring-2 focus:ring-indigo-500"
@@ -103,7 +105,7 @@ export default function Register() {
             type="submit"
             className="w-full bg-indigo-600 hover:bg-indigo-700 transition text-white py-2 rounded-lg font-semibold"
           >
-            Register
+            Registrarse 
           </button>
         </form>
 
