@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -9,6 +10,7 @@ export default function Register() {
   });
 
   const [responseMessage, setResponseMessage] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -21,83 +23,92 @@ export default function Register() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:3001/api/v1/register", {
-        method: "POST", 
+      const res = await fetch("http://localhost:3001/api/v1/auth/register", {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
       const data = await res.json();
+      const shortToken = data.token.substring(0, 15) + "...";
 
       if (res.ok) {
+        setIsSuccess(true);
         setResponseMessage(
-          `Usuario registrado correctamente, el token generado es ${data.token}`
+          `✓ Registro exitoso\n` +
+          `ID de usuario: ${data.user.id}\n` +
+          `Token generado: ${shortToken}`
         );
       } else {
-        setResponseMessage(
-          `Error al hacer proceso de registro de nuevo usuario, error: ${data.message}`
-        );
+        setIsSuccess(false);
+        setResponseMessage(`Error al registrar usuario: Usuario ya existe`);
       }
     } catch (error) {
-      setResponseMessage(
-        `Error al hacer proceso de registro de nuevo usuario, error: ${error.message}`
-      );
+      setIsSuccess(false);
+      setResponseMessage(`Error al registrar usuario: Usuario ya existe`);
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900 px-4">
-      <div className="w-full max-w-md bg-gray-800 rounded-2xl shadow-xl p-8">
-        <h2 className="text-3xl font-bold text-white text-center mb-6">
+      
+      <div className="w-full max-w-sm bg-gray-800 rounded-xl shadow-xl p-6">
+
+        <h2 className="text-2xl font-bold text-white text-center mb-4">
           Registrar cuenta
         </h2>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3">
+
           <div>
-            <label className="text-gray-300">Nombre de usuario</label>
+            <label className="text-gray-300 text-sm">Nombre de usuario</label>
             <input
               type="text"
               name="username"
-              placeholder="Alejandro05"
+              placeholder="Ejemplo_09"
               required
               onChange={handleChange}
-              className="w-full mt-1 p-2 rounded-lg bg-gray-700 text-white outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full mt-1 p-2 rounded-lg bg-gray-700 text-white outline-none 
+                         focus:ring-2 focus:ring-indigo-500 text-sm"
             />
           </div>
 
           <div>
-            <label className="text-gray-300">Correo Electronico</label>
+            <label className="text-gray-300 text-sm">Correo Electrónico</label>
             <input
               type="email"
               name="email"
               placeholder="tu_correo@gmail.com"
               required
               onChange={handleChange}
-              className="w-full mt-1 p-2 rounded-lg bg-gray-700 text-white outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full mt-1 p-2 rounded-lg bg-gray-700 text-white outline-none 
+                         focus:ring-2 focus:ring-indigo-500 text-sm"
             />
           </div>
 
           <div>
-            <label className="text-gray-300">Contraseña</label>
+            <label className="text-gray-300 text-sm">Contraseña</label>
             <input
               type="password"
               name="password"
               placeholder="********"
               required
               onChange={handleChange}
-              className="w-full mt-1 p-2 rounded-lg bg-gray-700 text-white outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full mt-1 p-2 rounded-lg bg-gray-700 text-white outline-none 
+                         focus:ring-2 focus:ring-indigo-500 text-sm"
             />
           </div>
 
           <div>
-            <label className="text-gray-300">Identificación</label>
+            <label className="text-gray-300 text-sm">Identificación</label>
             <input
               type="text"
               name="documentNumber"
               placeholder="98765432"
               required
               onChange={handleChange}
-              className="w-full mt-1 p-2 rounded-lg bg-gray-700 text-white outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full mt-1 p-2 rounded-lg bg-gray-700 text-white outline-none 
+                         focus:ring-2 focus:ring-indigo-500 text-sm"
             />
           </div>
 
@@ -105,15 +116,34 @@ export default function Register() {
             type="submit"
             className="w-full bg-indigo-600 hover:bg-indigo-700 transition text-white py-2 rounded-lg font-semibold"
           >
-            Registrarse 
+            Registrarse
           </button>
         </form>
 
         {responseMessage && (
-          <div className="mt-4 p-3 rounded-lg bg-gray-700 text-gray-100 text-center">
+          <div className="mt-3 p-3 rounded-lg bg-gray-700 text-gray-100 text-center whitespace-pre-line text-sm">
             {responseMessage}
           </div>
         )}
+
+        {isSuccess ? (
+          <div className="mt-3 flex justify-center">
+            <Link
+              to="/"
+              className="px-4 py-1 text-sm bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow transition"
+            >
+              Volver al inicio
+            </Link>
+          </div>
+        ) : (
+          <p className="text-center mt-3 text-gray-400 text-sm">
+            ¿Ya tienes una cuenta?{" "}
+            <Link to="/" className="text-indigo-400 hover:text-indigo-300">
+              Iniciar Sesión
+            </Link>
+          </p>
+        )}
+
       </div>
     </div>
   );
